@@ -1,0 +1,12 @@
+{
+    "name": "komjit/simple-pay",
+    "description": "This is a simple package for SimplePay in Laravel.",
+    "authors": [
+        {
+            "name": "Komjáti Dávid",
+            "email": "komjati.david@komjit.eu"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
