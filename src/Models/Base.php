@@ -327,8 +327,8 @@ class Base
                 }
             }
             $this->transactionBase['currency'] = substr($key, 0, 3);
-            $this->config['merchant'] = $this->config[$this->transactionBase['currency'] . '_MERCHANT'];
-            $this->config['merchantKey'] = $this->config[$this->transactionBase['currency'] . '_SECRET_KEY'];
+            $this->config['merchant'] = env("SIMPLE_HUF_MERCHANT");
+            $this->config['merchantKey'] = env("SIMPLE_HUF_SECRET_KEY");
         }
 
         $this->config['api'] = 'live';

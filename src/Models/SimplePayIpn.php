@@ -77,7 +77,7 @@ class SimplePayIpn extends Base
         } elseif ($this->validationResult) {
             $this->ipnContent['receiveDate'] = @date("c", time());
             $this->confirmContent = json_encode($this->ipnContent);
-            $this->signature = $this->getSignature($this->config['merchantKey'], $this->confirmContent);
+            $this->signature = $this->getSignature(env("SIMPLE_HUF_MERCHANT"), $this->confirmContent);
         }
         $this->ipnReturnData['signature'] = $this->signature;
         $this->ipnReturnData['confirmContent'] = $this->confirmContent;
