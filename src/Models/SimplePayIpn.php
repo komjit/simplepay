@@ -40,6 +40,7 @@ class SimplePayIpn extends Base
                 return $headers;
             }
         }
+
         $signature = $this->getSignatureFromHeader(getallheaders());
 
         foreach (json_decode($this->checkOrSetToJson($content)) as $key => $value) {
@@ -55,6 +56,7 @@ class SimplePayIpn extends Base
         if ($this->isCheckSignature($content, $signature)) {
             $this->validationResult = true;
         }
+
         $this->logContent['ipnBodyToValidation'] = $content;
 
         $this->logTransactionId = $this->ipnContent['transactionId'];
@@ -77,7 +79,7 @@ class SimplePayIpn extends Base
         } elseif ($this->validationResult) {
             $this->ipnContent['receiveDate'] = @date("c", time());
             $this->confirmContent = json_encode($this->ipnContent);
-            $this->signature = $this->getSignature(env("SIMPLE_HUF_MERCHANT"), $this->confirmContent);
+            $this->signature = $this->getSignature($this->config['merchantKey'], $this->confirmContent);
         }
         $this->ipnReturnData['signature'] = $this->signature;
         $this->ipnReturnData['confirmContent'] = $this->confirmContent;

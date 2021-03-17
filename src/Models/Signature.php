@@ -54,7 +54,7 @@ trait Signature
      */
     public function isCheckSignature($data = '', $signatureToCheck = '')
     {
-        $this->config['computedSignature'] = $this->getSignature(env("SIMPLE_HUF_MERCHANT"), $data);
+        $this->config['computedSignature'] = $this->getSignature($this->config['merchantKey'], $data);
         $this->logContent['signatureToCheck'] = $signatureToCheck;
         $this->logContent['computedSignature'] = $this->config['computedSignature'];
         try {

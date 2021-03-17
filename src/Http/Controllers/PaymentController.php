@@ -11,25 +11,28 @@ class PaymentController extends Controller
     public function index(Request $request)
     {
         $config = [
-            'HUF_MERCHANT' => "OMS5440501",
-            'HUF_SECRET_KEY' => "2kBqzsGbyIjfL3S1Bu231U6K8YybAuU9",
+            //HUF
+            'HUF_MERCHANT' => "OMS5440501",            //merchant account ID (HUF)
+            'HUF_SECRET_KEY' => "2kBqzsGbyIjfL3S1Bu231U6K8YybAuU9",          //secret key for account ID (HUF)
 
             'SANDBOX' => true,
 
+            //common return URL
             'URL' => 'http://' . $_SERVER['HTTP_HOST'] . '/back.php',
-            'URLS_SUCCESS' => 'http://' . $_SERVER['HTTP_HOST'] . '/success.php',
-            'URLS_FAIL' => 'http://' . $_SERVER['HTTP_HOST'] . '/fail.php',
-            'URLS_CANCEL' => 'http://' . $_SERVER['HTTP_HOST'] . '/cancel.php',
-            'URLS_TIMEOUT' => 'http://' . $_SERVER['HTTP_HOST'] . '/timeout.php',
+            'URLS_SUCCESS' => 'http://' . $_SERVER['HTTP_HOST'] . '/success.php',       //url for successful payment
+            'URLS_FAIL' => 'http://' . $_SERVER['HTTP_HOST'] . '/fail.php',             //url for unsuccessful
+            'URLS_CANCEL' => 'http://' . $_SERVER['HTTP_HOST'] . '/cancel.php',         //url for cancel on payment page
+            'URLS_TIMEOUT' => 'http://' . $_SERVER['HTTP_HOST'] . '/timeout.php',       //url for payment page timeout
 
             'GET_DATA' => (isset($_GET['r']) && isset($_GET['s'])) ? ['r' => $_GET['r'], 's' => $_GET['s']] : [],
             'POST_DATA' => $_POST,
             'SERVER_DATA' => $_SERVER,
 
-            'LOGGER' => true,
-            'LOG_PATH' => 'log',
+            'LOGGER' => true,                              //basic transaction log
+            'LOG_PATH' => 'log',                           //path of log file
 
-            'AUTOCHALLENGE' => true,
+            //3DS
+            'AUTOCHALLENGE' => true,                      //in case of unsuccessful payment with registered card run automatic challange
         ];
 
         $trx = new SimplePayStart();
@@ -45,7 +48,7 @@ class PaymentController extends Controller
 
 //ORDER ITEMS
 //-----------------------------------------------------------------------------------------
-
+        /*
         $trx->addItems(
             array(
                 'ref' => 'Product ID 1',
@@ -68,6 +71,7 @@ class PaymentController extends Controller
                 'tax' => '0',
                 )
         );
+        */
 
 
 // SHIPPING COST
@@ -149,14 +153,14 @@ class PaymentController extends Controller
 // INVOICE DATA
 //-----------------------------------------------------------------------------------------
         $trx->addGroupData('invoice', 'name', 'SimplePay V2 Tester');
-        $trx->addGroupData('invoice', 'company', '');
+//$trx->addGroupData('invoice', 'company', '');
         $trx->addGroupData('invoice', 'country', 'hu');
         $trx->addGroupData('invoice', 'state', 'Budapest');
         $trx->addGroupData('invoice', 'city', 'Budapest');
         $trx->addGroupData('invoice', 'zip', '1111');
         $trx->addGroupData('invoice', 'address', 'Address 1');
-        $trx->addGroupData('invoice', 'address2', 'Address 2');
-        $trx->addGroupData('invoice', 'phone', '06201234567');
+//$trx->addGroupData('invoice', 'address2', 'Address 2');
+//$trx->addGroupData('invoice', 'phone', '06201234567');
 
 
 // DELIVERY DATA
@@ -180,8 +184,6 @@ class PaymentController extends Controller
 // link: link to payment page
 //-----------------------------------------------------------------------------------------
         $trx->formDetails['element'] = 'button';
-
-        array_push("asd", ""),
 
 
 //create transaction in SimplePay system
