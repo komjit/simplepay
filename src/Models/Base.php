@@ -201,16 +201,26 @@ class Base
         if (is_object($data)) {
             $json = json_encode($data);
         }
+
         //json
-        $result = @json_decode($data);
+        if(is_string($data)) {
+            $result = @json_decode($data);
+        }else{
+            $result = $data;
+        }
         if ($result !== null) {
             $json = $data;
         }
         //serialized
-        $result = @unserialize($data);
-        if ($result !== false) {
-            $json = json_encode($result);
+        if(is_string($data)){
+            $result = @unserialize($data);
+            if ($result !== false) {
+                $json = json_encode($result);
+            }
+        }else{
+            $json = json_encode($data);
         }
+
         return $json;
     }
 
