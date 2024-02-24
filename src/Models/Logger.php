@@ -43,7 +43,7 @@ trait Logger
                 $logText .= $key . $this->logSeparator;
                 $logText .= $this->contentFilter($key, $value) . "\n";
             }
-            Log::info('SimplePay', [
+            Log::channel(config('logging.default'))->info('SimplePay', [
                 'method' => __METHOD__,
                 'logText' => $logText,
             ]);
