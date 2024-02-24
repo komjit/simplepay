@@ -42,13 +42,14 @@ trait Logger
                 $logText .= $date . $this->logSeparator;
                 $logText .= $key . $this->logSeparator;
                 $logText .= $this->contentFilter($key, $value) . "\n";
-
-                Log::channel(config('logging.default'))->info('SimplePay:',
-                [
-                    'method' => __METHOD__,
-                    'logText' => $logText,
-                ]);
             }
+
+            Log::channel(config('logging.default'))->info('SimplePay:',
+            [
+                'method' => __METHOD__,
+                'logText' => $logText,
+            ]);
+
             unset($log, $flat, $logText);
             return true;
         }
