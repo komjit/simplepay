@@ -3,6 +3,8 @@
 
 namespace KomjIT\SimplePay\Models;
 
+use Illuminate\Support\Facades\Log;
+
 /**
  * Logger
  *
@@ -29,22 +31,6 @@ trait Logger
         }
 
         $date = @date('Y-m-d H:i:s', time());
-        $logFile = $this->config['logPath'] . '/' . @date('Ymd', time()) . '.log';
-
-        try {
-            if (!is_writable($this->config['logPath'])) {
-                $write = false;
-                throw new \Exception('Folder is not writable: ' . $this->config['logPath']);
-            }
-            if (file_exists($logFile)) {
-                if (!is_writable($logFile)) {
-                    $write = false;
-                    throw new \Exception('File is not writable: ' . $logFile);
-                }
-            }
-        } catch (\Exception $e) {
-            $this->logContent['logFile'] = $e->getMessage();
-        }
 
         if ($write) {
             $flat = $this->getFlatArray($log);
@@ -57,7 +43,10 @@ trait Logger
                 $logText .= $key . $this->logSeparator;
                 $logText .= $this->contentFilter($key, $value) . "\n";
             }
-            $this->logToFile($logFile, $logText);
+            Log::info('SimplePay', [
+                'method' => __METHOD__,
+                'logText' => $logText,
+            ]);
             unset($log, $flat, $logText);
             return true;
         }
